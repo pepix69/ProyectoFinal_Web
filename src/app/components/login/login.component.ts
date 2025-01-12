@@ -32,39 +32,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/']);
     }
   }
-
-  /*
-  onSubmit() {
-    this.submitted = true;
   
-    if (this.loginForm.invalid) {
-      return;
-    }
-  
-    this.authService.login(
-      this.loginForm.get('username')?.value,
-      this.loginForm.get('password')?.value
-    ).subscribe({
-      next: (response) => {
-        if (!response.success) {
-          this.error = response.message; // Mensaje manejado en el servicio
-          return;
-        }
-        this.router.navigate(['/']);
-      },
-      error: (err) => {
-        if (err.status === 401) {
-          this.error = 'Usuario o contraseña inválidos.';
-        } else if (err.status === 403) {
-          this.error = 'No tienes permiso para acceder.';
-        } else {
-          this.error = 'Error inesperado. Intente nuevamente.';
-        }
-      }
-    });
-  }*/
-  
-
   onSubmit() {
     this.submitted = true;
 
@@ -94,6 +62,4 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
-
 }

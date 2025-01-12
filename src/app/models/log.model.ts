@@ -1,6 +1,8 @@
 export interface Log {
-    expenseId: number,
-    expenseDate: string,
-    amount: number,
-    description: string
+    productId: number,
+    name: string,
+    description: string,
+    price: number,
+    stock: number,
+    created_at: string
 }

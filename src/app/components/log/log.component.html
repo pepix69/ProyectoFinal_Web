@@ -1,8 +1,8 @@
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Expenses - Gastos</h2>
+    <h2>Productos</h2>
     <button *ngIf="authService.hasAuthority('CREATE')" class="btn btn-success" (click)="createLog()">
-      Nuevo Gasto
+      Nuevo Producto
     </button>
   </div>
 
@@ -16,25 +16,32 @@
       <thead>
         <tr>
           <th>Id</th>
-          <th>Fecha</th>
-          <th>Monto</th>
+          <th>Nombre</th>
           <th>Descripción</th>
+          <th>Precio</th>
+          <th>Inventario</th>
+          <th>Creado en:</th>
           <th>Acciones</th>
+
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let log of listadoLogs">
-          <td>{{ log.expenseId }}</td>
-          <td>{{ log.expenseDate | date: 'dd/MM/yyyy' }}</td>
-          <td>$ {{ log.amount | number: '1.2-2' }}</td>
+          <td>{{ log.id }}</td>
+          <td>{{ log.name }}</td>
           <td>{{ log.description }}</td>
+          <td>{{ log.price }}</td>
+          <td>{{ log.stock }}</td>
+          <td>{{ log.created_at | date: 'dd/MM/yyyy' }}</td>
+          <!--<td>$ {{ log.price | number: '1.2-2' }}</td>-->
+
           <td>
             <button *ngIf="authService.hasAuthority('UPDATE')" class="btn btn-primary btn-sm me-2"
               (click)="editLog(log)">
               Editar
             </button>
             <button *ngIf="authService.hasAuthority('DELETE')" class="btn btn-danger btn-sm"
-              (click)="eliminarLog(log.expenseId)">
+              (click)="eliminarLog(log.id)">
               Eliminar
             </button>
           </td>
@@ -42,37 +49,6 @@
       </tbody>
     </table>
   </div>
-
-  <!--<div *ngIf="!loading" class="table-responsive">
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Fecha</th>
-          <th>Monto</th>
-          <th>Descripción</th>
-          <th>Operaciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let log of listadoLogs">
-          <td>{{ log.expenseId }}</td>
-          <td>{{ log.expenseDate | date:'dd/MM/yyyy' }}</td>
-          <td>$ {{ log.amount | number:'1.2-2' }}</td>
-          <td>{{ log.description }}</td>
-          <td>
-            <button *ngIf="authService.hasAuthority('UPDATE')" class="btn btn-primary btn-sm me-2" (click)="editLog(log)">
-              Editar
-            </button>
-            <button *ngIf="authService.hasAuthority('DELETE')" class="btn btn-danger btn-sm" (click)="eliminarLog(log.expenseId)">
-              Eliminar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-      
-    </table>
-  </div>-->
 </div>
 
 <!-- Modal Template -->
@@ -84,27 +60,19 @@
     <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close">
     </button>
   </div>
+
+  
+
+
   <div class="modal-body">
     <form [formGroup]="logForm">
-      <div class="mb-3">
-        <label for="expenseDate" class="form-label">Fecha</label>
-        <input type="date" id="expenseDate" class="form-control" formControlName="expenseDate"
-          [ngClass]="{ 'is-invalid': logForm.get('expenseDate')?.invalid && logForm.get('expenseDate')?.touched }" />
-        <div *ngIf="logForm.get('expenseDate')?.invalid && logForm.get('expenseDate')?.touched"
-          class="invalid-feedback">
-          La fecha es requerida.
-        </div>
-      </div>
 
       <div class="mb-3">
-        <label for="amount" class="form-label">Monto</label>
-        <div class="input-group">
-          <span class="input-group-text">$</span>
-          <input type="number" id="amount" class="form-control" formControlName="amount"
-            [ngClass]="{ 'is-invalid': logForm.get('amount')?.invalid && logForm.get('amount')?.touched }" />
-        </div>
-        <div *ngIf="logForm.get('amount')?.invalid && logForm.get('amount')?.touched" class="invalid-feedback">
-          El monto debe ser mayor a 0.
+        <label for="name" class="form-label">Nombre</label>
+        <input type="text" id="name" class="form-control" formControlName="name"
+          [ngClass]="{ 'is-invalid': logForm.get('name')?.invalid && logForm.get('name')?.touched }" />
+        <div *ngIf="logForm.get('name')?.invalid && logForm.get('name')?.touched" class="invalid-feedback">
+          El nombre es requerido.
         </div>
       </div>
 
@@ -113,13 +81,42 @@
         <textarea id="description" class="form-control" formControlName="description" rows="3"
           [ngClass]="{ 'is-invalid': logForm.get('description')?.invalid && logForm.get('description')?.touched }">
         </textarea>
-        <div *ngIf="logForm.get('description')?.invalid && logForm.get('description')?.touched"
-          class="invalid-feedback">
+        <div *ngIf="logForm.get('description')?.invalid && logForm.get('description')?.touched" class="invalid-feedback">
           La descripción es requerida.
         </div>
       </div>
+
+      <div class="mb-3">
+        <label for="price" class="form-label">Precio</label>
+        <input type="number" id="price" class="form-control" formControlName="price"
+          [ngClass]="{ 'is-invalid': logForm.get('price')?.invalid && logForm.get('price')?.touched }" />
+        <div *ngIf="logForm.get('price')?.invalid && logForm.get('price')?.touched" class="invalid-feedback">
+          El precio debe ser un valor positivo.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="stock" class="form-label">Inventario</label>
+        <input type="number" id="stock" class="form-control" formControlName="stock"
+          [ngClass]="{ 'is-invalid': logForm.get('stock')?.invalid && logForm.get('stock')?.touched }" />
+        <div *ngIf="logForm.get('stock')?.invalid && logForm.get('stock')?.touched" class="invalid-feedback">
+          El inventario debe ser mayor o igual a 0.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="created_at" class="form-label">Fecha de Creación</label>
+        <input type="date" id="created_at" class="form-control" formControlName="created_at"
+          [ngClass]="{ 'is-invalid': logForm.get('created_at')?.invalid && logForm.get('created_at')?.touched }" />
+        <div *ngIf="logForm.get('created_at')?.invalid && logForm.get('created_at')?.touched" class="invalid-feedback">
+          La fecha de creación es requerida.
+        </div>
+      </div>
+
+      
     </form>
   </div>
+  
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
       Cancelar
@@ -130,145 +127,3 @@
   </div>
 </ng-template>
 
-
-<!--<div class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Gestión de Clientes</h2>
-    <button 
-      *ngIf="authService.hasAuthority('CREATE')" 
-      class="btn btn-success" 
-      (click)="createLog()">
-      Gestión de Clientes
-    </button>
-  </div>
-
-  <div *ngIf="loading" class="text-center">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Cargando...</span>
-    </div>
-  </div>
-
-  <div *ngIf="!loading" class="table-responsive">
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Apellidos</th>
-          <th>Correo</th>
-          <th>Teléfono</th>
-          <th>Operaciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let log of listadoLogs">
-          <td>{{ log.customerId }}</td>
-          <td>{{ log.firstName }}</td>
-          <td>{{ log.lastName }}</td>
-          <td>{{ log.email }}</td>
-          <td>{{ log.phoneNumber }}</td>
-          <td>
-            <button 
-              *ngIf="authService.hasAuthority('UPDATE')" 
-              class="btn btn-primary btn-sm me-2"
-              (click)="editLog(log)">
-              Editar
-            </button>
-            <button 
-              *ngIf="authService.hasAuthority('DELETE')" 
-              class="btn btn-danger btn-sm"
-              (click)="eliminarLog(log.customerId)">
-              Eliminar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-<ng-template #logModal let-modal>
-  <div class="modal-header">
-    <h5 class="modal-title" id="logModalLabel">
-      {{ isEditMode ? 'Editar Cliente' : 'Agregar nuevo Cliente' }}
-    </h5>
-    <button 
-      type="button" 
-      class="btn-close" 
-      (click)="modal.dismiss()"
-      aria-label="Close">
-    </button>
-  </div>
-  <div class="modal-body">
-    <form [formGroup]="logForm">
-      <div class="mb-3">
-        <label for="firstName" class="form-label">Nombre</label>
-        <input 
-          type="text" 
-          id="firstName" 
-          class="form-control" 
-          formControlName="firstName" 
-          [ngClass]="{ 'is-invalid': logForm.get('firstName')?.invalid && logForm.get('firstName')?.touched }" />
-        <div *ngIf="logForm.get('firstName')?.invalid && logForm.get('firstName')?.touched" class="invalid-feedback">
-          El nombre es requerido y debe tener al menos 2 caracteres.
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="lastName" class="form-label">Apellido</label>
-        <input 
-          type="text" 
-          id="lastName" 
-          class="form-control" 
-          formControlName="lastName" 
-          [ngClass]="{ 'is-invalid': logForm.get('lastName')?.invalid && logForm.get('lastName')?.touched }" />
-        <div *ngIf="logForm.get('lastName')?.invalid && logForm.get('lastName')?.touched" class="invalid-feedback">
-          El apellido es requerido y debe tener al menos 2 caracteres.
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="email" class="form-label">Correo</label>
-        <input 
-          type="email" 
-          id="email" 
-          class="form-control" 
-          formControlName="email" 
-          [ngClass]="{ 'is-invalid': logForm.get('email')?.invalid && logForm.get('email')?.touched }" />
-        <div *ngIf="logForm.get('email')?.invalid && logForm.get('email')?.touched" class="invalid-feedback">
-          Por favor ingrese un email válido.
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="phoneNumber" class="form-label">Teléfono</label>
-        <input 
-          type="tel" 
-          id="phoneNumber" 
-          class="form-control" 
-          formControlName="phoneNumber" 
-          [ngClass]="{ 'is-invalid': logForm.get('phoneNumber')?.invalid && logForm.get('phoneNumber')?.touched }" />
-        <div *ngIf="logForm.get('phoneNumber')?.invalid && logForm.get('phoneNumber')?.touched" class="invalid-feedback">
-          Por favor ingrese un número de teléfono válido de 10 dígitos.
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button 
-      type="button" 
-      class="btn btn-secondary" 
-      (click)="modal.dismiss()">
-      Cancelar
-    </button>
-    <button 
-      type="button" 
-      class="btn btn-primary" 
-      [disabled]="logForm.invalid"
-      (click)="onSubmitLog(modal)">
-      {{ isEditMode ? 'Actualizar Registro' : 'Crear Registro' }}
-    </button>
-  </div>
-</ng-template>
--->

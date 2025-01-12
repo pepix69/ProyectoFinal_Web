@@ -9,9 +9,9 @@ import { CommonModule } from '@angular/common';
 })
 export class CreditosComponent {
   developer = {
-    name: 'Alonso Domínguez López',
+    name: 'José Ángel Montoya Zúñiga',
     group: '7CM1',
-    email: 'adominguezl2100@alumno.ipn.mx'
+    email: 'joseangelmontoya69@gmail.com'
   };
 }
 

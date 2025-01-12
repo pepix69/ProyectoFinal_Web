@@ -5,25 +5,27 @@ import { Observable } from 'rxjs';
 import { Log } from '../models/log.model';
 import { AuthService } from './auth.service';
 
-export interface Expense {
-  expenseId: number;
-  expenseDate: string;
-  amount: number;
-  description: string;
+export interface Product {
+  id: number,
+  name: string,
+  description: string,
+  price: number,
+  stock: number,
+  created_at: string
 }
 
 interface ApiResponse {
   estado: number;
   msg: string;
-  expenses: Expense[];
+  expenses: Product[];
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class LogsService {
-  //private apiUrl = 'https://cbdf-aam-apicustomer.onrender.com/api/customers';
-  private apiUrl = 'https://wcbdf-adl-api-expenses.onrender.com/api/v1/expenses';
+  private apiUrl = 'https://web-client-departamental02.onrender.com/api/v1/products';
+
 
   constructor(
     private http: HttpClient,
