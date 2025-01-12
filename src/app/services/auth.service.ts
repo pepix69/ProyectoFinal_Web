@@ -20,12 +20,12 @@ export class AuthService {
   private isBrowser: boolean;
 
   private userPasswords: { [key: string]: string } = {
-    'admin': 'admin',
-    'user': 'user',
-    'moderator': 'moderator',
-    'editor': 'editor',
-    'developer': 'developer',
-    'analyst': 'analyst'
+    'admin': '1234',
+    'user': '1234',
+    'moderator': '1234',
+    'editor': '1234',
+    'developer': '1234',
+    'analyst': '1234'
   };
 
   constructor(
