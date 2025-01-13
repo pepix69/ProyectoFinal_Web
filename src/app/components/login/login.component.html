@@ -3,8 +3,8 @@
     <div class="col-md-6 col-lg-4">
       <div class="card border-0 shadow-lg">
         <!-- Header -->
-        <div class="card-header bg-primary text-white p-4 border-0">
-          <h3 class="text-center mb-0 fw-bold">Proyecto Final g</h3>
+        <div class="card-header text-white p-4 border-0" style="background-color: #701c44;">
+          <h3 class="text-center mb-0 fw-bold">Proyecto Final</h3>
         </div>
 
         <!-- Body -->
@@ -12,7 +12,7 @@
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <!-- Username field -->
             <div class="mb-4">
-              <label for="username" class="form-label fw-semibold">Usuario</label>
+              <label for="username" class="form-label fw-semibold" style="font-size: 1.25rem">Usuario</label>
               <div class="input-group">
                 <span class="input-group-text bg-white">
                   <i class="bi bi-person"></i>
@@ -30,7 +30,7 @@
 
             <!-- Password field -->
             <div class="mb-4">
-              <label for="password" class="form-label fw-semibold">Contraseña</label>
+              <label for="password" class="form-label fw-semibold" style="font-size: 1.25rem">Contraseña</label>
               <div class="input-group">
                 <span class="input-group-text bg-white">
                   <i class="bi bi-lock"></i>
@@ -48,7 +48,7 @@
 
             <!-- Submit button -->
             <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-primary btn-lg">
+              <button type="submit" class="btn btn-primary btn-lg" style="background-color: #701c44; border: none;">
                 <span>Ingresar</span>
                 <i class="bi bi-arrow-right ms-2"></i>
               </button>
@@ -64,3 +64,5 @@
     </div>
   </div>
 </div>
+
+
